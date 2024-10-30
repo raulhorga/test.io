@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Paint App</title>
+    <title>Advanced Paint App</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Paint Application</h1>
     <div class="controls">
-        <label for="brush-size">Brush Size:</label>
-        <button onclick="setBrushSize(5)">Small</button>
-        <button onclick="setBrushSize(10)">Medium</button>
-        <button onclick="setBrushSize(20)">Large</button>
+        <!-- Unelte pentru desen -->
+        <button onclick="setTool('pencil')">Creion</button>
+        <button onclick="setTool('text')">Text</button>
+        <button onclick="setTool('rectangle')">Dreptunghi</button>
+        <button onclick="setTool('circle')">Cerc</button>
         
-        <label for="canvas-size">Canvas Size:</label>
-        <button onclick="setCanvasSize(756, 756)">20x20 cm</button>
-        <button onclick="setCanvasSize(1512, 1134)">40x30 cm</button>
-        <button onclick="setCanvasSize(3024, 1890)">80x50 cm</button>
-
+        <!-- Setări pentru pensulă și culoare -->
+        <label for="brush-size">Brush Size:</label>
+        <select id="brush-size" onchange="setBrushSize(this.value)">
+            <option value="5">5px</option>
+            <option value="10">10px</option>
+            <option value="20">20px</option>
+        </select>
+        
+        <label for="color-picker">Color:</label>
+        <input type="color" id="color-picker" onchange="setBrushColor(this.value)">
+        
+        <!-- Buton pentru salvare -->
         <button onclick="saveImage()">Save as PNG</button>
     </div>
-    <canvas id="paintCanvas" width="756" height="756"></canvas>
+    <canvas id="paintCanvas" width="800" height="600"></canvas>
 
     <script src="script.js"></script>
 </body>
