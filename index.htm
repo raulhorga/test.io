@@ -13,9 +13,15 @@
         <button onclick="setBrushSize(5)">Small</button>
         <button onclick="setBrushSize(10)">Medium</button>
         <button onclick="setBrushSize(20)">Large</button>
+        
+        <label for="canvas-size">Canvas Size:</label>
+        <button onclick="setCanvasSize(756, 756)">20x20 cm</button>
+        <button onclick="setCanvasSize(1512, 1134)">40x30 cm</button>
+        <button onclick="setCanvasSize(3024, 1890)">80x50 cm</button>
+
         <button onclick="saveImage()">Save as PNG</button>
     </div>
-    <canvas id="paintCanvas" width="800" height="600"></canvas>
+    <canvas id="paintCanvas" width="756" height="756"></canvas>
 
     <script src="script.js"></script>
 </body>
