@@ -3,19 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Paint App</title>
+    <title>Basic Paint Application</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Paint Application</h1>
     <div class="controls">
-        <!-- Unelte pentru desen -->
-        <button onclick="setTool('pencil')">Creion</button>
-        <button onclick="setTool('text')">Text</button>
-        <button onclick="setTool('rectangle')">Dreptunghi</button>
-        <button onclick="setTool('circle')">Cerc</button>
-        
-        <!-- Setări pentru pensulă și culoare -->
+        <!-- Selectăm dimensiunea pensulei și culoarea -->
         <label for="brush-size">Brush Size:</label>
         <select id="brush-size" onchange="setBrushSize(this.value)">
             <option value="5">5px</option>
