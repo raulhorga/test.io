@@ -1,57 +1,103 @@
-// Selectăm canvas-ul și setăm contextul 2D
+// Selectăm canvas-ul și contextul 2D
 const canvas = document.getElementById("paintCanvas");
 const ctx = canvas.getContext("2d");
 
-// Setări pentru desen
+// Setări inițiale
 let drawing = false;
-let brushSize = 5;  // Dimensiune inițială a pensulei
+let tool = "pencil"; // Uneltele disponibile: pencil, text, rectangle, circle
+let brushSize = 5;
 let brushColor = "#000000";
+let startX, startY;
 
-// Funcția pentru a începe desenul
-canvas.addEventListener("mousedown", (e) => {
-    drawing = true;
-    draw(e);
-});
+// Setează unealta selectată
+function setTool(selectedTool) {
+    tool = selectedTool;
+}
 
-canvas.addEventListener("mouseup", () => {
-    drawing = false;
-    ctx.beginPath();  // Închide curentul desen pentru a preveni legarea dintre linii
-});
+// Schimbă dimensiunea pensulei
+function setBrushSize(size) {
+    brushSize = parseInt(size);
+}
 
-canvas.addEventListener("mousemove", draw);
+// Schimbă culoarea pensulei
+function setBrushColor(color) {
+    brushColor = color;
+}
 
-// Funcția de desenare
-function draw(e) {
-    if (!drawing) return;
-
+// Funcția de desenare cu creionul
+function drawPencil(e) {
     ctx.lineWidth = brushSize;
     ctx.lineCap = "round";
     ctx.strokeStyle = brushColor;
-
-    // Setăm poziția pe canvas și desenăm
     ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
 }
 
-// Schimbă dimensiunea pensulei
-function setBrushSize(size) {
-    brushSize = size;
+// Adaugă text la locația mouse-ului
+function addText(e) {
+    const text = prompt("Introduceți textul:");
+    if (text) {
+        ctx.font = `${brushSize * 4}px Arial`;
+        ctx.fillStyle = brushColor;
+        ctx.fillText(text, e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+    }
 }
 
-// Schimbă dimensiunea canvas-ului
-function setCanvasSize(width, height) {
-    // Salvăm conținutul existent al canvas-ului
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-    // Setăm noile dimensiuni
-    canvas.width = width;
-    canvas.height = height;
-
-    // Restaurăm conținutul existent al canvas-ului
-    ctx.putImageData(imageData, 0, 0);
+// Funcția de desenare a dreptunghiului
+function drawRectangle(e) {
+    const width = e.clientX - canvas.offsetLeft - startX;
+    const height = e.clientY - canvas.offsetTop - startY;
+    ctx.lineWidth = brushSize;
+    ctx.strokeStyle = brushColor;
+    ctx.strokeRect(startX, startY, width, height);
 }
+
+// Funcția de desenare a cercului
+function drawCircle(e) {
+    const radius = Math.sqrt(
+        Math.pow(e.clientX - canvas.offsetLeft - startX, 2) +
+        Math.pow(e.clientY - canvas.offsetTop - startY, 2)
+    );
+    ctx.lineWidth = brushSize;
+    ctx.strokeStyle = brushColor;
+    ctx.beginPath();
+    ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+    ctx.stroke();
+}
+
+// Gestionarea evenimentelor mouse-ului
+canvas.addEventListener("mousedown", (e) => {
+    drawing = true;
+    startX = e.clientX - canvas.offsetLeft;
+    startY = e.clientY - canvas.offsetTop;
+
+    if (tool === "pencil") {
+        drawPencil(e);
+    }
+});
+
+canvas.addEventListener("mousemove", (e) => {
+    if (!drawing) return;
+    if (tool === "pencil") {
+        drawPencil(e);
+    }
+});
+
+canvas.addEventListener("mouseup", (e) => {
+    drawing = false;
+    ctx.beginPath(); // Închide curentul de desen pentru a evita liniile continue
+
+    // Apelăm funcțiile corespunzătoare uneltei selectate
+    if (tool === "text") {
+        addText(e);
+    } else if (tool === "rectangle") {
+        drawRectangle(e);
+    } else if (tool === "circle") {
+        drawCircle(e);
+    }
+});
 
 // Salvează desenul ca PNG
 function saveImage() {
