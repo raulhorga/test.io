@@ -17,29 +17,28 @@ function setBrushColor(color) {
 }
 
 // Începe desenarea
-canvas.addEventListener("mousedown", () => {
+canvas.addEventListener("mousedown", (e) => {
     drawing = true;
-    ctx.beginPath();
+    ctx.beginPath();  // Începe un nou traseu de desen la click
+    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
 });
 
 // Oprește desenarea
 canvas.addEventListener("mouseup", () => {
     drawing = false;
-    ctx.beginPath(); // Închide curentul pentru a evita legarea liniilor
 });
 
 // Desenează linia în timp ce miști mouse-ul
 canvas.addEventListener("mousemove", (e) => {
     if (!drawing) return;
-    
+
     ctx.lineWidth = brushSize;
     ctx.lineCap = "round";
     ctx.strokeStyle = brushColor;
     
+    // Trasează linia de la ultima poziție la poziția curentă a mouse-ului
     ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
     ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
 });
 
 // Salvează imaginea ca PNG
