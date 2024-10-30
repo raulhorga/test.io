@@ -40,6 +40,19 @@ function setBrushSize(size) {
     brushSize = size;
 }
 
+// Schimbă dimensiunea canvas-ului
+function setCanvasSize(width, height) {
+    // Salvăm conținutul existent al canvas-ului
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    // Setăm noile dimensiuni
+    canvas.width = width;
+    canvas.height = height;
+
+    // Restaurăm conținutul existent al canvas-ului
+    ctx.putImageData(imageData, 0, 0);
+}
+
 // Salvează desenul ca PNG
 function saveImage() {
     const link = document.createElement("a");
