@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina mea</title>
+    <title>Simple Paint App</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Bine ai venit pe pagina mea!</h1>
-    <p>Aceasta este o pagină simplă HTML.</p>
+    <h1>Paint Application</h1>
+    <div class="controls">
+        <label for="brush-size">Brush Size:</label>
+        <button onclick="setBrushSize(5)">Small</button>
+        <button onclick="setBrushSize(10)">Medium</button>
+        <button onclick="setBrushSize(20)">Large</button>
+        <button onclick="saveImage()">Save as PNG</button>
+    </div>
+    <canvas id="paintCanvas" width="800" height="600"></canvas>
+
+    <script src="script.js"></script>
 </body>
 </html>
